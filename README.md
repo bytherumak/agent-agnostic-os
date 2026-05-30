@@ -1,4 +1,4 @@
-<![CDATA[<div align="center">
+<div align="center">
 
 # 🧠 Agent-Agnostic OS
 
@@ -271,4 +271,4 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 ⭐ Star this repo if it saved your sanity.
 
 </div>
-]]>
+
