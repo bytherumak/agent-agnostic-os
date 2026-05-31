@@ -1,7 +1,10 @@
 # LLM Active State (The Working Memory)
 
+**Active Persona:** [Planner | TDD-Guide | Developer | Security-Reviewer | etc.]
+
 This file tracks the *exact* current micro-task and state of the project.
 When a new model session begins, it MUST read this file to synchronize context.
+*Note: Update the Active Persona field whenever your primary mode of thinking shifts during a task.*
 
 ## Session Metadata
 - **Last Agent ID / Model:** [Which model last touched this file, e.g., GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro]

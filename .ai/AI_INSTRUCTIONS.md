@@ -23,14 +23,17 @@ Whenever a new session starts or context is lost, the LLM MUST follow this loop 
    - **No Blind Overwrites:** Never overwrite a file based on in-context memory. You MUST read the file from disk immediately before modifying it.
    - **Merge Conflict Protocol:** If a Git command results in a Merge Conflict (e.g., `<<<<<<< HEAD` markers appear), you are STRICTLY FORBIDDEN from attempting to resolve it autonomously. You must instantly mark `STATE.md` as `[BLOCKED]`, log the conflicting files, and abort execution for human intervention.
 2. **Wake-up (State Sync):** Read `.ai/STATE.md` and `wiki/log.md` to understand the current micro-goal. If Git divergence was found in step 1, autonomously update `.ai/PLAN.md` to accommodate the new reality.
-3. **Plan (Impact Analysis & Constraints):**
+3. **Skill Loading (The Modular Mind):** Scan the `.ai/skills/` directory and actively load any skill file relevant to the current micro-goal (e.g., reading `automation_workflows.md` when integrating APIs, or `iot_microcontrollers.md` when writing hardware logic).
+4. **Plan (Impact Analysis & Constraints):**
    - Read `.ai/ARCH_SPEC.md` to map dependencies and boundaries.
+   - Read `.ai/INSTINCTS.md` to apply hard-won lessons and absolute rules.
    - Read `[DEPENDENCY MANIFEST]` to verify available packages/modules. *(Instruction for future AI: Specify the dependency file. Example: "pyproject.toml", "package.json", "go.mod", "Cargo.toml", "build.gradle".)*
    - Draft the impact analysis, affected components, and step-by-step logic in `.ai/PLAN.md`.
-4. **Execute:** Modify Code -> Run Tests -> Update `.ai/STATE.md` to `[COMPLETED]` -> Commit.
+5. **Execute:** Modify Code -> Run Tests -> Update `.ai/STATE.md` to `[COMPLETED]` -> Commit.
 *The state files MUST ALWAYS be updated before the code is touched.*
 
 ## 2. Technical Directives (The Law)
+*   **Cognitive Guardrails (File Size Limits):** Favor many small files over a few large ones. Optimal size: 200-400 lines. Hard Limit: 800 lines. If modifying a file pushes it past 800 lines, you are STRICTLY FORBIDDEN from adding new features until you refactor and modularize it.
 *   **The Dependency Directive:** You are **FORBIDDEN** from introducing new external libraries or packages unless explicitly authorized by the user. You must solve problems using the existing stack defined in `.ai/ARCH_SPEC.md` and `[DEPENDENCY MANIFEST]`.
 *   **Immutable Infrastructure:** You are STRICTLY FORBIDDEN from modifying configuration files (`[CI/CD CONFIG FILES]`, `[DEPENDENCY MANIFEST]`, `[LINTER/FORMATTER CONFIG]`) to bypass failing tests or linters. Infrastructure changes require explicit human approval. *(Instruction for future AI: List the exact config filenames. Example: ".pre-commit-config.yaml, pyproject.toml, .github/workflows/", "package.json, .eslintrc, tsconfig.json".)*
 *   **Schema Migrations:** NEVER edit migration files directly. Use the project's migration tool's auto-generation command exclusively. Always verify migration status before committing. *(Instruction for future AI: Specify your migration tool and its commands. Example: "alembic revision --autogenerate / alembic current", "prisma migrate dev", "knex migrate:make", "django makemigrations". If the project has no database or migrations, delete this bullet.)*
@@ -49,6 +52,7 @@ To prevent context window bloating, whenever a task is marked `[COMPLETED]`, you
 2. Clear the `Rejected Approaches` table rows (keep the header).
 3. Move any valuable long-term lessons learned to `wiki/` (e.g., `wiki/rejected-approaches.md` or a relevant architecture page).
 4. Reset `PLAN.md` to its blank template state.
+5. **Continuous Instincts:** Extract hard-won lessons, obscure bugs, or architectural constraints discovered during the task and append them as a single, absolute rule to `.ai/INSTINCTS.md`.
 
 ## Formatting Conventions
 *   Use GitHub Flavored Markdown.
