@@ -77,11 +77,12 @@ This is the brain of the OS. It defines:
 
 - **The Prime Directive** — *"Leave the system in a better, verifiable state than you found it."*
 - **The 7 Pillars of Perfect Memory** — A philosophy covering active task tracking, contextual memory, executable memory (tests), historical memory (Git), release memory (changelogs), structural memory (types), and environment sync.
-- **The Wake-Up & Handoff Protocol** — A strict 4-step sequence the agent must follow before writing a single line of code:
+- **The Wake-Up & Handoff Protocol** — A strict 5-step sequence the agent must follow before writing a single line of code:
   1. **The Pulse** — `git fetch`, `git status`, `git log -n 3`. Detect divergence. Never overwrite blindly.
   2. **Wake-up** — Read `STATE.md` to synchronize with the current micro-goal.
-  3. **Plan** — Read `ARCH_SPEC.md`, draft an impact analysis in `PLAN.md`.
-  4. **Execute** — Code → Test → Update State → Commit.
+  3. **Skill Loading** — Scan `skills/` for relevant reusable workflows and micro-agents.
+  4. **Plan** — Read `ARCH_SPEC.md` and `INSTINCTS.md`, draft an impact analysis in `PLAN.md`.
+  5. **Execute** — Code → Test → Update State → Commit.
 - **Technical Directives** — Hard laws governing dependency management, infrastructure immutability, schema migrations, secrets handling, and mock-first integrations.
 - **Anti-Laziness & Loop Prevention** — No placeholders, no "DIY" comments, no infinite retry loops. If the agent fails 3 times, it must stop and declare itself `[BLOCKED]`.
 
@@ -91,7 +92,7 @@ The agent reads the three operational files (see below) to understand *where we 
 
 ---
 
-## 📂 The 4 Core Files
+## 📂 The Core Structure
 
 The `.ai/` directory contains everything the agent needs to operate autonomously:
 
@@ -100,7 +101,10 @@ The `.ai/` directory contains everything the agent needs to operate autonomously
 ├── AI_INSTRUCTIONS.md   # 🧠 The Kernel — Protocols, laws, and workflow rules
 ├── STATE.md             # 💾 The RAM — Current task, status, and blockers
 ├── PLAN.md              # 📋 The Scratchpad — Impact analysis and execution checklist
-└── ARCH_SPEC.md         # 🗺️ The Map — Tech stack, directory layout, and invariants
+├── ARCH_SPEC.md         # 🗺️ The Map — Tech stack, directory layout, and invariants
+├── INSTINCTS.md         # 🛡️ The Immune System — Hard-won lessons and mistakes to avoid
+└── skills/              # 🛠️ The Toolbelt — Reusable agent workflows and scripts
+    └── SKILL_TEMPLATE.md
 ```
 
 ### `AI_INSTRUCTIONS.md` — The Kernel
@@ -142,6 +146,14 @@ The architectural constitution of your project. Defines:
 - **Critical Invariants** — Absolute rules that may never be violated (e.g., "all I/O must be async", "no unbounded queries without pagination").
 
 **This is the file you customize.** It ships with `[GUIDED PLACEHOLDERS]` that tell you exactly what to fill in, with examples for every major stack.
+
+### `INSTINCTS.md` — The Immune System
+
+The project's continuous learning file. Auto-generation tools and LLMs often repeat the same specific mistakes (like dropping columns instead of renaming them in database migrations). Whenever a hard-won lesson is learned or a critical bug is fixed, the agent appends it here. Future agents must read this before planning to avoid repeating history.
+
+### `skills/` — The Toolbelt
+
+A directory for storing executable instructions, bash scripts, and API interaction templates. If there's a complex multi-step process you do often (like "Deploy to Staging" or "Add a new Database Model"), you define it as a skill using the `SKILL_TEMPLATE.md`. Agents can then execute these skills flawlessly without needing you to explain the steps every time.
 
 ---
 
@@ -193,9 +205,9 @@ Open your IDE, start a chat with your AI agent, and give it a task. The boot cha
 
 1. Silently read the bootloader → kernel → state files.
 2. Run `git fetch` and `git status` to sync with reality.
-3. Draft an impact analysis in `PLAN.md`.
+3. Load relevant skills and draft an impact analysis in `PLAN.md`.
 4. Execute the task following the strict checklist.
-5. Update `STATE.md` with the result.
+5. Update `STATE.md` and append any new learnings to `INSTINCTS.md`.
 
 **That's it.** Your AI agent now has persistent memory, architectural awareness, and self-enforcing guardrails.
 
@@ -233,7 +245,9 @@ your-project/
 │   ├── AI_INSTRUCTIONS.md    # The Kernel (rarely edited)
 │   ├── STATE.md              # Working Memory (auto-managed by agents)
 │   ├── PLAN.md               # Impact Analysis (auto-managed by agents)
-│   └── ARCH_SPEC.md          # Tech Stack Map (YOU configure this)
+│   ├── ARCH_SPEC.md          # Tech Stack Map (YOU configure this)
+│   ├── INSTINCTS.md          # Immune System (learned mistakes)
+│   └── skills/               # Reusable agent workflows
 ├── .cursorrules              # The Bootloader
 ├── wiki/                     # Long-term knowledge base (created as needed)
 │   ├── log.md                # Architectural decision log
